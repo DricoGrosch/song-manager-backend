@@ -1,7 +1,7 @@
 import graphene
-from ..data import *
+from src.data import songs
 
-class SongMutation(graphene.Mutation):
+class CreateSongMutation(graphene.Mutation):
     id = graphene.Int()
     title = graphene.String()
     artist = graphene.String()
@@ -15,6 +15,9 @@ class SongMutation(graphene.Mutation):
         chords = graphene.String(required=True)
 
     def mutate(self, info, title, artist, difficulty, chords):
+        if not title.strip():   
+            raise Exception("title: String! (must not be empty)")
+        
         new_song = {
             'id': len(songs) + 1,
             'title': title,
@@ -23,7 +26,7 @@ class SongMutation(graphene.Mutation):
             'chords': chords
         }
         songs.append(new_song)
-        return SongMutation(
+        return CreateSongMutation(
             id=new_song['id'],
             title=new_song['title'],
             artist=new_song['artist'],

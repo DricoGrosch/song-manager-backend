@@ -1,5 +1,6 @@
 import graphene
-class Song(graphene.ObjectType):
+
+class SongObjectType(graphene.ObjectType):
     id = graphene.Int()
     title = graphene.String()
     artist = graphene.String()
